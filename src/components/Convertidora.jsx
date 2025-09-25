@@ -28,13 +28,24 @@ const Convertidora = () => {
       const response = await fetch(`${API_URL}/${categoria}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ value, from, to }),
+        body: JSON.stringify({ value, from, to }), // 👈 mismo formato que espera el backend
       });
 
+      if (!response.ok) {
+        throw new Error("Error en la respuesta del servidor");
+      }
+
       const data = await response.json();
+
+      if (data.error) {
+        alert(data.error);
+        return;
+      }
+
       setResultado(data.resultado);
     } catch (error) {
       console.error("Error en la conversión:", error);
+      alert("Ocurrió un error al convertir, revisa el backend");
     }
   };
 

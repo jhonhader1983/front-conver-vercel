@@ -11,13 +11,13 @@ function Calculadora(){
     const [resultado, setResultado] = useState('');
 
     function handleSubmit(e){
-        e.preventDefault();
+        e.preventDefault(); 
         const operacion = e.target.value;
 
         fetch(`${API_URL}/calculadora/${operacion}`, {
             method: 'POST',
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({ number1, number2 })
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ a: number1, b: number2 }) // 👈 aquí corregido
         })
         .then(res => res.json())
         .then(responseData => {
@@ -30,8 +30,18 @@ function Calculadora(){
         <div className="container">
             <h1 id="txtCalculadora">CALCULADORA</h1>
             <form>
-                <input type="text" className="number" onChange={(e)=> setNumber1(e.target.value)}/><br />
-                <input type="text" className="number" onChange={(e)=> setNumber2(e.target.value)}/><br />
+                <input 
+                  type="text" 
+                  className="number" 
+                  value={number1}
+                  onChange={(e)=> setNumber1(e.target.value)}
+                /><br />
+                <input 
+                  type="text" 
+                  className="number" 
+                  value={number2}
+                  onChange={(e)=> setNumber2(e.target.value)}
+                /><br />
                 <input type="submit" className="btnEnviar" value="sumar" onClick={handleSubmit}/>
                 <input type="submit" className="btnEnviar" value="restar" onClick={handleSubmit}/>
                 <input type="submit" className="btnEnviar" value="multiplicar" onClick={handleSubmit}/>
