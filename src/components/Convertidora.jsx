@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import "./Convertidora.css";
 
+// URL del backend en Vercel
+const API_URL = "https://back-convertidor-vercel.vercel.app/api";
+
 const Convertidora = () => {
   const [categoria, setCategoria] = useState("temperatura");
   const [value, setValue] = useState("");
@@ -10,7 +13,7 @@ const Convertidora = () => {
 
   const unidades = {
     temperatura: ["c", "f", "k"],
-    tiempo: ["horas", "dias", "meses", "anios"],
+    tiempo: ["horas", "dias", "meses", "años"],
     peso: ["gramos", "kilos", "libras"],
     moneda: ["USD", "EUR", "COP", "MXN"],
   };
@@ -22,14 +25,12 @@ const Convertidora = () => {
     }
 
     try {
-      const response = await fetch(
-        `http://localhost:3500/v1/convertidora/${categoria}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ value, from, to }),
-        }
-      );
+      const response = await fetch(`${API_URL}/${categoria}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ value, from, to }),
+      });
+
       const data = await response.json();
       setResultado(data.resultado);
     } catch (error) {
